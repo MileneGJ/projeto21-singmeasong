@@ -1,6 +1,7 @@
 import {recommendationRepository} from "../../src/repositories/recommendationRepository"
 import {recommendationService} from "../../src/services/recommendationsService"
 import recommendationFactory from "../integration/factories/recommendationFactory"
+import { createScenarioOneRecommendation } from "../integration/factories/scenarioFactory"
 
 
 describe('insert',()=>{
@@ -10,40 +11,54 @@ describe('insert',()=>{
         const spy1 = jest.spyOn(recommendationRepository,'findByName').mockResolvedValue(undefined)
         const spy2 = jest.spyOn(recommendationRepository,'create').mockResolvedValue()
 
-        const result = await recommendationService.insert(recommendation)
+        const result = recommendationService.insert(recommendation)
 
-        expect(result).toBeUndefined()
+        expect(result).resolves.toBeUndefined()
         expect(spy1).toHaveBeenCalled();
         expect(spy2).toHaveBeenCalled();
     })
 
     it('Throw error 409 when name already exists in database',async()=>{
         const recommendation = await recommendationFactory()
-        const expectedError = "Recommendations names must be unique"
+        const expectedError = {type:'conflict',message:"Recommendations names must be unique"}
         const spy1 = jest.spyOn(recommendationRepository,'findByName').mockResolvedValue({...recommendation,id:1,score:0})
         const spy2 = jest.spyOn(recommendationRepository,'create').mockResolvedValue()
 
-        const insertFunction = async ()=> {
-            try {
-                await recommendationService.insert(recommendation)
-            } catch (error) {
-                return error
-            }
-        }
-
-        expect(insertFunction).toThrow(expectedError)
+        const result = recommendationService.insert(recommendation)
+        
+        expect(result).rejects.toEqual(expectedError)
         expect(spy1).toHaveBeenCalled();
-        expect(spy2).not.toHaveBeenCalled();
-
+        expect(spy2).toHaveBeenCalled();
     })
-
 })
 
 
 describe('upvote',()=>{
 
+    it('Modify recomendation score when id exists',async()=>{
+        const recommendation = await createScenarioOneRecommendation()
+        const spy1 = jest.spyOn(recommendationRepository,'find').mockResolvedValue(recommendation)
+        const spy2 = jest.spyOn(recommendationRepository,'updateScore').mockResolvedValue(recommendation)
 
+        const result = recommendationService.upvote(recommendation.id)
 
+        expect(result).resolves.toBeUndefined()
+        expect(spy1).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+    })
+
+    it('Throw error 404 when id is not found',async()=>{
+        const recommendation = await createScenarioOneRecommendation()
+        const expectedError = {type:'not_found',message:""}
+        const spy1 = jest.spyOn(recommendationRepository,'find').mockResolvedValue(undefined)
+        const spy2 = jest.spyOn(recommendationRepository,'updateScore').mockResolvedValue(recommendation)
+
+        const result = recommendationService.upvote(recommendation.id)
+
+        expect(result).rejects.toEqual(expectedError)
+        expect(spy1).toHaveBeenCalled();
+        expect(spy2).toHaveBeenCalled();
+    })
 })
 
 
