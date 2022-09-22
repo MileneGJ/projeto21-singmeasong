@@ -5,9 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prisma:migrate": "prisma migrate dev",
-    "test:unit": "dotenv -e .env.test jest -- -i --coverage --testPathPattern=tests/unit",
-    "test:integration": "dotenv -e .env.test jest -i --no-cache --testPathPattern=tests/integration",
+    "test": "dotenv -e .env.test prisma migrate dev && dotenv -e .env.test jest -i --no-cache",
     "dev": "dotenv -e .env.test nodemon src/server.ts"
   },
   "keywords": [],
