@@ -7,7 +7,7 @@
   "scripts": {
     "prisma:migrate": "dotenv -e .env.test prisma migrate dev",
     "test:unit": "dotenv -e .env.test jest -- -i --coverage --testPathPattern=tests/unit",
-    "test:integration": "dotenv -e .env.test jest -i --no-cache",
+    "test:integration": "dotenv -e .env.test -- jest -i --no-cache",
     "dev": "dotenv -e .env.test nodemon src/server.ts"
   },
   "keywords": [],
