@@ -38,7 +38,7 @@ export async function createScenarioRecommendationsDifferentScores (amount:numbe
 }
 
 export async function deleteAllData() {
-      await prisma.$executeRaw`TRUNCATE TABLE recommendations`
+    await prisma.$executeRaw`TRUNCATE TABLE recommendations RESTART IDENTITY;`
 }
   
 export async function disconnectPrisma() {
