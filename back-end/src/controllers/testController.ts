@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import testsRouter from "../routers/testsRouter.js";
 import * as testService from '../services/testService.js'
 
 export async function reset (req:Request, res:Response) {

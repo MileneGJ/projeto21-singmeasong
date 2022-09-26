@@ -6,7 +6,7 @@ export async function removeAll() {
 }
 
 export async function createAndGet11Cases() {
-  let cases = []
+  const cases = []
   for(let i=0;i<11;i++){
     const recommendation = await recommendationFactory()
     const createdRecommendation = await prisma.recommendation.create({data:{...recommendation,score:i}});

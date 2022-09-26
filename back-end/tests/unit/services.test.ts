@@ -14,8 +14,8 @@ describe('insert', () => {
 
     it('Create recommendation successfully when name is not found in database', async () => {
         const recommendation = await recommendationFactory()
-        jest.spyOn(recommendationRepository, 'findByName').mockImplementationOnce(():any=>{})
-        jest.spyOn(recommendationRepository, 'create').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'findByName').mockImplementationOnce(():any=>{null})
+        jest.spyOn(recommendationRepository, 'create').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.insert(recommendation)
 
@@ -28,7 +28,7 @@ describe('insert', () => {
         const recommendation = await recommendationFactory()
         const expectedError = { type: 'conflict', message: "Recommendations names must be unique" }
         jest.spyOn(recommendationRepository, 'findByName').mockImplementationOnce(():any=>({ ...recommendation, id: 1, score: 0 }))
-        jest.spyOn(recommendationRepository, 'create').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'create').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.insert(recommendation)
 
@@ -56,7 +56,7 @@ describe('upvote', () => {
     it('Throws error 404 when id is not found', async () => {
         const recommendation = await recommendationFromDBFactory()
         const expectedError = { type: 'not_found', message: "" }
-        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{null})
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any=>recommendation)
 
         const result = recommendationService.upvote(recommendation.id)
@@ -74,7 +74,7 @@ describe('downvote', () => {
         const recommendation = await recommendationFromDBFactory()
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>recommendation)
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any=>recommendation)
-        const spy3 = jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.downvote(recommendation.id)
 
@@ -88,7 +88,7 @@ describe('downvote', () => {
         const recommendation = await recommendationFromDBFactory()
         jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>recommendation)
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any=>({...recommendation,score:-6}))
-        jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.downvote(recommendation.id)
 
@@ -101,9 +101,9 @@ describe('downvote', () => {
     it('Throws error 404 when id is not found', async () => {
         const recommendation = await recommendationFromDBFactory()
         const expectedError = { type: 'not_found', message: "" }
-        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{null})
         jest.spyOn(recommendationRepository, 'updateScore').mockImplementationOnce(():any=>recommendation)
-        jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'remove').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.upvote(recommendation.id)
 
@@ -131,7 +131,7 @@ describe('getByIdOrFail', () => {
     it('Throws error 404 when id is not found', async () => {
         const recommendation = await recommendationFromDBFactory()
         const expectedError = { type: 'not_found', message: "" }
-        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{})
+        jest.spyOn(recommendationRepository, 'find').mockImplementationOnce(():any=>{null})
 
         const result = recommendationService.getById(recommendation.id + 1)
 
