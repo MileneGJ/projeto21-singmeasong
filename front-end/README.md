@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Sing me a song
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was developed as a practical exercise for Driven Bootcamp course and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It is an application of song recommendations, in which any user can enter songs using youtube links and rate them. It is possible to see the top 10 best rated songs and get a random song from the app.
 
 ## Available Scripts
 
@@ -38,6 +38,25 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+
+## Features available for the user
+Users do not need authentication to use the features of this application
+
+### Enter a new song
+A new song can be entered by typing a name and a youtube link and clicking the enter button
+
+### Upvote or downvote a song
+Up and down arrows below each song can be used to rate specific songs. This rating will be used to rank them
+
+### See best rated songs
+Clicking on the 'top' option of the menu will show the top 10 best rated songs in the application
+
+### Get a random song
+Clicking on the 'random' option of the menu will return a random song of those registered on the application
+
+### Reproduce songs inside the application
+Clicking on the youtube play button will reproduce the song inside the application
 
 ## Learn More
 
